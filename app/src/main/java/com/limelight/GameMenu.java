@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class GameMenu implements Game.GameMenuCallbacks {
 
-    public static final long KEY_UP_DELAY = 25;
+    public static final long KEY_UP_DELAY = 100; // safe value for >10fps
     private static final long TEST_GAME_FOCUS_DELAY = 10;
 
     public static final String PREF_NAME = "specialPrefs"; // SharedPreferences的名称
