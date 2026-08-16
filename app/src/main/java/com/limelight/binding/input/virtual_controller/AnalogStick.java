@@ -134,34 +134,12 @@ public class AnalogStick extends VirtualControllerElement {
     }
 
     private static double getAngle(float way_x, float way_y) {
-        // prevent divisions by zero for corner cases
-        if (way_x == 0) {
-            return way_y < 0 ? Math.PI : 0;
-        } else if (way_y == 0) {
-            if (way_x > 0) {
-                return Math.PI * 3 / 2;
-            } else if (way_x < 0) {
-                return Math.PI * 1 / 2;
-            }
+        double angle = Math.atan2(-way_x, -way_y);
+
+        if (angle < 0) {
+            angle += 2 * Math.PI;
         }
-        // return correct calculated angle for each quadrant
-        if (way_x > 0) {
-            if (way_y < 0) {
-                // first quadrant
-                return 3 * Math.PI / 2 + Math.atan((double) (-way_y / way_x));
-            } else {
-                // second quadrant
-                return Math.PI + Math.atan((double) (way_x / way_y));
-            }
-        } else {
-            if (way_y > 0) {
-                // third quadrant
-                return Math.PI / 2 + Math.atan((double) (way_y / -way_x));
-            } else {
-                // fourth quadrant
-                return 0 + Math.atan((double) (-way_x / -way_y));
-            }
-        }
+        return angle;
     }
 
     public AnalogStick(VirtualController controller, Context context, int elementId) {
