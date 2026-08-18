@@ -499,7 +499,7 @@ public class KeyBoardControllerConfigurationLoader {
 
                             String id = (sc.id == null || sc.id.isEmpty())
                                     ? Integer.toString(idx) : sc.id;
-                            String name = sc.name;                 // may be null
+                            String name = sc.name.length() > 5 ? sc.name.substring(0, 5) : sc.name;
 
                             List<String> keys = sc.keys;
                             short[] vkKeyCodes = new short[keys.size()];

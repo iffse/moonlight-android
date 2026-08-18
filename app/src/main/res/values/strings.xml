@@ -477,6 +477,8 @@
     <string name="title_special_key_layout">Special Key Layout</string>
     <string name="title_show_virtual_key">Display virtual keys on screen</string>
     <string name="summary_show_virtual_key">Display a layer of virtual special keys on the touchscreen.\nKey opacity is shared with the virtual gamepad above.</string>
+    <string name="title_clear_default_keyboard_button">Clear default keyboard button.</string>
+    <string name="summary_clear_default_keyboard_button">Don\'t add default layout profile to the keyboard.</string>
     <string name="title_default_layout_scheme">Default layout profile</string>
     <string name="summary_default_layout_scheme">Each layout profile is initially the same (generated based on the keyboards.json file), you can delete and adjust it yourself</string>
     <string name="summary_vibrate_keyboard">When you click the screen button, it will trigger the phone motor vibration. This option can also be used for virtual gamepad buttons.</string>

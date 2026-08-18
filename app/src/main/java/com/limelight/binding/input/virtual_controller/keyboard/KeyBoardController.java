@@ -475,7 +475,7 @@ public class KeyBoardController {
                             KeyConfigHelper.Shortcut sc = shortcutData.get(idx);
 
                             String id = (sc.id == null || sc.id.isEmpty()) ? Integer.toString(idx) : sc.id;
-                            String name = sc.name;
+                            String name = sc.name.length() > 5 ? sc.name.substring(0, 5) : sc.name;
 
                             JSONObject customKey = new JSONObject();
                             customKey.put("type", 4); // Custom key type
