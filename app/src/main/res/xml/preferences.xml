@@ -669,7 +669,7 @@
             android:key="checkbox_onscreen_style_official"
             android:summary="@string/summary_checkbox_onscreen_style_official"
             android:title="@string/title_checkbox_onscreen_style_official"
-            app:iconSpaceReserved="true" />
+            app:iconSpaceReserved="false" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:dependency="checkbox_show_onscreen_controls"
