@@ -382,6 +382,7 @@ public class KeyBoardControllerConfigurationLoader {
         if (TextUtils.isEmpty(result)) {
             return;
         }
+
         try {
             JSONObject jsonObject = new JSONObject(result);
             JSONObject jsonObject1 = jsonObject.getJSONObject("data");
@@ -391,93 +392,97 @@ public class KeyBoardControllerConfigurationLoader {
             JSONArray rockerList = jsonObject1.getJSONArray("rocker");
             JSONArray mouseList = jsonObject1.getJSONArray("mouse");
 
-            //十字键
-            for (int i = 0; i < dpadList.length(); i++) {
-                JSONObject obj = dpadList.getJSONObject(i);
-                String code = obj.optString("elementId");
-                int keyCodeLeft = obj.optInt("leftCode");
-                int keyCodeRight = obj.optInt("rightCode");
-                int keyCodeUp = obj.optInt("upCode");
-                int keyCodeDown = obj.optInt("downCode");
-                controller.addElement(createDiaitalPadButton(code, keyCodeLeft, keyCodeRight, keyCodeUp, keyCodeDown, controller, context),
-                        screenScale(92, height) + rightDisplacement,
-                        screenScale(41, height),
-                        (int) (w * 2.5), (int) (w * 2.5)
-                );
-            }
-            //摇杆
-            for (int i = 0; i < rockerList.length(); i++) {
-                JSONObject obj = rockerList.getJSONObject(i);
-                String code = obj.optString("elementId");
-                int keyCodeLeft = obj.optInt("leftCode");
-                int keyCodeRight = obj.optInt("rightCode");
-                int keyCodeUp = obj.optInt("upCode");
-                int keyCodeDown = obj.optInt("downCode");
-                int keyCodeMiddle = obj.optInt("middleCode");
-                int[] keys = new int[]{keyCodeUp, keyCodeDown, keyCodeLeft, keyCodeRight, keyCodeMiddle};
-
-                if (config.enableNewAnalogStick) {
-                    controller.addElement(createKeyBoardAnalogStickButton2(controller, code, context, keys),
-                            screenScale(4, height),
+            if (!config.disableDefaultKeyboardKeys) {
+                //十字键
+                for (int i = 0; i < dpadList.length(); i++) {
+                    JSONObject obj = dpadList.getJSONObject(i);
+                    String code = obj.optString("elementId");
+                    int keyCodeLeft = obj.optInt("leftCode");
+                    int keyCodeRight = obj.optInt("rightCode");
+                    int keyCodeUp = obj.optInt("upCode");
+                    int keyCodeDown = obj.optInt("downCode");
+                    controller.addElement(createDiaitalPadButton(code, keyCodeLeft, keyCodeRight, keyCodeUp, keyCodeDown, controller, context),
+                            screenScale(92, height) + rightDisplacement,
                             screenScale(41, height),
                             (int) (w * 2.5), (int) (w * 2.5)
-                    );
-                } else {
-                    controller.addElement(createKeyBoardAnalogStickButton(controller, code, context, keys),
-                            screenScale(4, height),
-                            screenScale(41, height),
-                            (int) (w * 2.5), (int) (w * 2.5)
-                    );
+                            );
                 }
-            }
+                //摇杆
+                for (int i = 0; i < rockerList.length(); i++) {
+                    JSONObject obj = rockerList.getJSONObject(i);
+                    String code = obj.optString("elementId");
+                    int keyCodeLeft = obj.optInt("leftCode");
+                    int keyCodeRight = obj.optInt("rightCode");
+                    int keyCodeUp = obj.optInt("upCode");
+                    int keyCodeDown = obj.optInt("downCode");
+                    int keyCodeMiddle = obj.optInt("middleCode");
+                    int[] keys = new int[]{keyCodeUp, keyCodeDown, keyCodeLeft, keyCodeRight, keyCodeMiddle};
 
-            //鼠标按键
-            for (int i = 0; i < mouseList.length(); i++) {
-                JSONObject obj = mouseList.getJSONObject(i);
-                obj.put("type", 1);
-                keystrokeList.put(obj);
+                    if (config.enableNewAnalogStick) {
+                        controller.addElement(createKeyBoardAnalogStickButton2(controller, code, context, keys),
+                                screenScale(4, height),
+                                screenScale(41, height),
+                                (int) (w * 2.5), (int) (w * 2.5)
+                                );
+                    } else {
+                        controller.addElement(createKeyBoardAnalogStickButton(controller, code, context, keys),
+                                screenScale(4, height),
+                                screenScale(41, height),
+                                (int) (w * 2.5), (int) (w * 2.5)
+                                );
+                    }
+                }
+
+                //鼠标按键
+                for (int i = 0; i < mouseList.length(); i++) {
+                    JSONObject obj = mouseList.getJSONObject(i);
+                    obj.put("type", 1);
+                    keystrokeList.put(obj);
+                }
             }
 
             double buttonSum = 14.0;
 
-            int i;
+            int i = 0;
 
+            if (!config.disableDefaultKeyboardKeys) {
             //普通按键
-            for (i = 0; i < keystrokeList.length(); i++) {
-                JSONObject obj = keystrokeList.getJSONObject(i);
+                for (i = 0; i < keystrokeList.length(); i++) {
+                    JSONObject obj = keystrokeList.getJSONObject(i);
 
-                String name = obj.optString("name");
+                    String name = obj.optString("name");
 
-                int type = obj.optInt("type");
+                    int type = obj.optInt("type");
 
-                int code = obj.optInt("code");
+                    int code = obj.optInt("code");
 
-                int switchButton = obj.optInt("switchButton");
+                    int switchButton = obj.optInt("switchButton");
 
-                String elementId = type == 0 ? "key_" + code : "m_" + code;
+                    String elementId = type == 0 ? "key_" + code : "m_" + code;
 
-                if (switchButton == 1) {
-                    elementId = type == 0 ? "key_s_" + code : "m_s_" + code;
+                    if (switchButton == 1) {
+                        elementId = type == 0 ? "key_s_" + code : "m_s_" + code;
+                    }
+
+                    int lastIndex = (int) (i / buttonSum);
+
+                    int x = screenScale(1 + (int) (i % buttonSum) * BUTTON_SIZE, height);
+
+                    int y = screenScale(BUTTON_SIZE + lastIndex * BUTTON_SIZE, height);
+
+                    if (TextUtils.equals("m_9", elementId) || TextUtils.equals("m_10", elementId) || TextUtils.equals("m_11", elementId)) {
+                        controller.addElement(createDigitalTouchButton(elementId, code, type, 1, name, -1, controller, context),
+                                x, y,
+                                w, w
+                                );
+                    } else {
+                        controller.addElement(createDigitalButton(elementId, code, type, 1, name, -1, config.stickyModifierKey && isModifierKey(code), controller, context),
+                                x, y,
+                                w, w
+                                );
+                    }
+                    LimeLog.info("x:" + x + ",y:" + y + ",W&H:" + w + "," + screenScale(BUTTON_SIZE, height));
                 }
-
-                int lastIndex = (int) (i / buttonSum);
-
-                int x = screenScale(1 + (int) (i % buttonSum) * BUTTON_SIZE, height);
-
-                int y = screenScale(BUTTON_SIZE + lastIndex * BUTTON_SIZE, height);
-
-                if (TextUtils.equals("m_9", elementId) || TextUtils.equals("m_10", elementId) || TextUtils.equals("m_11", elementId)) {
-                    controller.addElement(createDigitalTouchButton(elementId, code, type, 1, name, -1, controller, context),
-                            x, y,
-                            w, w
-                    );
-                } else {
-                    controller.addElement(createDigitalButton(elementId, code, type, 1, name, -1, config.stickyModifierKey && isModifierKey(code), controller, context),
-                            x, y,
-                            w, w
-                    );
-                }
-                LimeLog.info("x:" + x + ",y:" + y + ",W&H:" + w + "," + screenScale(BUTTON_SIZE, height));
             }
 
             // Custom keys

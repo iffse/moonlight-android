@@ -430,36 +430,40 @@ public class KeyBoardController {
             List<JSONObject> allItemsList = new ArrayList<>();
             List<String> keyNamesList = new ArrayList<>();
 
+            PreferenceConfiguration config = PreferenceConfiguration.readPreferences(context);
+
             // Add keyboard keys
-            for (int i = 0; i < keystrokeList.length(); i++) {
-                JSONObject key = keystrokeList.getJSONObject(i);
-                key.put("type", 0); // keyboard type
-                allItemsList.add(key);
-                keyNamesList.add(key.getString("name"));
-            }
+            if (!config.disableDefaultKeyboardKeys) {
+                for (int i = 0; i < keystrokeList.length(); i++) {
+                    JSONObject key = keystrokeList.getJSONObject(i);
+                    key.put("type", 0); // keyboard type
+                    allItemsList.add(key);
+                    keyNamesList.add(key.getString("name"));
+                }
 
-            // Add mouse buttons
-            for (int i = 0; i < mouseList.length(); i++) {
-                JSONObject obj = mouseList.getJSONObject(i);
-                obj.put("type", 1); // mouse type
-                allItemsList.add(obj);
-                keyNamesList.add(obj.getString("name"));
-            }
+                // Add mouse buttons
+                for (int i = 0; i < mouseList.length(); i++) {
+                    JSONObject obj = mouseList.getJSONObject(i);
+                    obj.put("type", 1); // mouse type
+                    allItemsList.add(obj);
+                    keyNamesList.add(obj.getString("name"));
+                }
 
-            // Add rocker (joystick) controls
-            for (int i = 0; i < rockerList.length(); i++) {
-                JSONObject obj = rockerList.getJSONObject(i);
-                obj.put("type", 2); // rocker type
-                allItemsList.add(obj);
-                keyNamesList.add(obj.getString("name") + " (Joystick)");
-            }
+                // Add rocker (joystick) controls
+                for (int i = 0; i < rockerList.length(); i++) {
+                    JSONObject obj = rockerList.getJSONObject(i);
+                    obj.put("type", 2); // rocker type
+                    allItemsList.add(obj);
+                    keyNamesList.add(obj.getString("name") + " (Joystick)");
+                }
 
-            // Add dpad controls
-            for (int i = 0; i < dpadList.length(); i++) {
-                JSONObject obj = dpadList.getJSONObject(i);
-                obj.put("type", 3); // dpad type
-                allItemsList.add(obj);
-                keyNamesList.add(obj.getString("name") + " (D-Pad)");
+                // Add dpad controls
+                for (int i = 0; i < dpadList.length(); i++) {
+                    JSONObject obj = dpadList.getJSONObject(i);
+                    obj.put("type", 3); // dpad type
+                    allItemsList.add(obj);
+                    keyNamesList.add(obj.getString("name") + " (D-Pad)");
+                }
             }
 
             // Load and add custom keys

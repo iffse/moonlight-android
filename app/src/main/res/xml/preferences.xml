@@ -742,14 +742,21 @@
         app:iconSpaceReserved="false">
 
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="checkbox_enable_keyboard"
             android:summary="@string/summary_show_virtual_key"
             android:title="@string/title_show_virtual_key"
             app:iconSpaceReserved="false" />
 
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
+            android:key="checkbox_enable_clear_default_keyboard_button"
+            android:summary="@string/summary_clear_default_keyboard_button"
+            android:title="@string/title_clear_default_keyboard_button"
+            app:iconSpaceReserved="false" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
             android:key="checkbox_enable_clear_default_special_button"
             android:summary="@string/summary_clear_default_special_button"
             android:title="@string/title_clear_default_special_button"

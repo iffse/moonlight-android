@@ -330,6 +330,8 @@ public class PreferenceConfiguration {
     //禁用内置的特殊指令
     public boolean disableDefaultExtraKeys;
 
+    public boolean disableDefaultKeyboardKeys;
+
     //强制使用设备自身的震动马达
     public boolean enableDeviceRumble;
 
@@ -985,6 +987,8 @@ private static int getFramePacingValue(Context context) {
         config.enablePerfOverlayLiteDialog=prefs.getBoolean("checkbox_enable_perf_overlay_lite_dialog",false);
 
         config.disableDefaultExtraKeys =prefs.getBoolean("checkbox_enable_clear_default_special_button", false);
+
+        config.disableDefaultKeyboardKeys = prefs.getBoolean("checkbox_enable_clear_default_keyboard_button", false);
 
         config.enableDeviceRumble=prefs.getBoolean("checkbox_enable_device_rumble", false);
 
