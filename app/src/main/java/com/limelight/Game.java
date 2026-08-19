@@ -438,7 +438,8 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
         if (
                 prefConfig.videoScaleMode == PreferenceConfiguration.ScaleMode.STRETCH ||
-                        shouldIgnoreInsetsForResolution(displayWidth, displayHeight)
+                        shouldIgnoreInsetsForResolution(displayWidth, displayHeight) ||
+                        prefConfig.fillLayout
         ) {
             // Allow the activity to layout under notches if the fill-screen option
             // was turned on by the user or it's a full-screen native resolution
